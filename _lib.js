@@ -1,7 +1,6 @@
 function addImages(scriptPath){
   if (selection.count() == 0){
-    [doc showMessage:"Oops! You need to select a few layers before running the script"]
-    return false;
+    [doc showMessage:"Oh! You need to select a few layers before running the script."]; return false;
   }
   // find a subdirectory to "/photos" with the same name as the script
   var scriptName = scriptPath.substring(scriptPath.lastIndexOf('/'),scriptPath.lastIndexOf('.sketchplugin'))
@@ -12,12 +11,14 @@ function addImages(scriptPath){
   var fileManager = NSFileManager.defaultManager();
   var extensions = [NSArray arrayWithObjects:@"png", @"PNG", @"jpg", @"JPG", @"jpeg", @"JPEG", @"gif", @"GIF", nil];
   if (!fileManager.fileExistsAtPath(imagesPath)){
-    [doc showMessage:"Oops! Couldn't find folder /photos"+scriptName]
-    return false;
+    [doc showMessage:"Oops! Missing folder /Photos"+scriptName+". Create it and add some photos before running the plugin."]; return false;
   }
   var dirContents = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:imagesPath error:nil];
   var imagesFileNames = [dirContents filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"pathExtension IN %@", extensions]];
   var imgLen = imagesFileNames.count();
+  if (imgLen == 0) { 
+    [doc showMessage:"Hm. Couldn't find any images inside /Photos"+scriptName+". You should add a few."]; return false;
+  }
   var usedImages = [];
 
   function randomImage(){

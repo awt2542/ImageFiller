@@ -4,9 +4,7 @@ function addImages(scriptPath){
     return false;
   }
   // find a subdirectory to "/photos" with the same name as the script
-  var beginning = scriptPath.lastIndexOf('/'))
-  var end = scriptPath.lastIndexOf('.sketchplugin'))
-  var scriptName = scriptPath.substring(beginning,end)
+  var scriptName = scriptPath.substring(scriptPath.lastIndexOf('/'),scriptPath.lastIndexOf('.sketchplugin'))
   var pluginsPath = scriptPath.substring(0, scriptPath.indexOf('Plugins'))+"Plugins/";
   var pluginName = scriptPath.replace(pluginsPath,""))
   pluginName = pluginName.substring(0,pluginName.indexOf('/'))
@@ -49,7 +47,6 @@ function addImages(scriptPath){
     // find a random photo and fill the layer
     fileName = randomImage();
     if (fileManager.fileExistsAtPath(fileName)) {
-      log(fileName);
       image = [[NSImage alloc] initWithContentsOfFile:fileName];
       firstFill.setPatternImage(image);
     }

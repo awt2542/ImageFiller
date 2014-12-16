@@ -6,7 +6,7 @@ This plugin makes it easy to automatically fill layers in Sketch with your own i
 
 **Nice features:**
 
-* Designed to be modified! Example images included just to get your started
+* Designed to be modified! Example images included just to get you started
 * Works great with both shapes/bitmap layers
 * Never picks the same photo twice (unless there are no more available in the folder)
 * No coding required to add/remove images

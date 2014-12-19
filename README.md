@@ -9,7 +9,6 @@ This plugin makes it easy to automatically fill layers in Sketch with your own i
 * Designed to be modified! Example images included just to get you started
 * Works great with both shapes/bitmap layers
 * Never picks the same photo twice (unless there are no more available in the folder)
-* No coding required to add/remove images
 * Use your own custom menu structure in Sketch by placing the .sketchplugin files in nested subdirectories (shouldn't break the code)
 * Works fine with hundreds of images on a single run
 
@@ -20,13 +19,9 @@ This plugin makes it easy to automatically fill layers in Sketch with your own i
 1. Select some layers in Sketch and run the plugin from the Plugins menu.
 
 ##How to add your own image catalogue
-1. Create a subdirectory inside "/Photos" and add some images to it. Give it a name like "Product Photos"
-1. Create a new .sketchplugin file with the following code:
-```
-	#import '_lib.js'
-``` (or just duplicate one of the existing examples). Name it Product Photos.sketchplugin to match your folder in /Photos.
-1. Open Sketch, select a few layers and go to Plugins > ImageFiller > Product Photos and voila!
-
+1. Duplicate one of the existing .sketchplugin files and change the image path to a folder on your computer (or add a new folder inside /Photos if you prefer to keep things in one place)
+1. Open Sketch, select a few layers and run the plugin from the Plugins menu
+2
 ##How to remove the example images
 1. Delete the .sketchplugin file
 1. Delete the corresponding folder under /Photos.

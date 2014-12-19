@@ -1,2 +1,3 @@
-// The name of this file should match a folder under /Photos
 #import '_lib.js'
+imagesPath = pluginPath+"/Photos/Landscapes/"
+getImages(imagesPath);

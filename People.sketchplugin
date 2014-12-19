@@ -1,3 +1,2 @@
-// No need to change anything in here. Just make sure that the name of this file matches a folder inside /Photos
+// The name of this file should match a folder under /Photos
 #import '_lib.js'
-addImages(sketch.scriptPath);

@@ -1,12 +1,15 @@
-function addImages(scriptPath){
+(function (){
+
   if (selection.count() == 0){
     [doc showMessage:"Oh! You need to select a few layers before running the script."]; return false;
   }
+
   // find a subdirectory to "/photos" with the same name as the script
+  var scriptPath = sketch.scriptPath;
   var scriptName = scriptPath.substring(scriptPath.lastIndexOf('/'),scriptPath.lastIndexOf('.sketchplugin'))
   var pluginsPath = scriptPath.substring(0, scriptPath.indexOf('Plugins'))+"Plugins/";
-  var pluginName = scriptPath.replace(pluginsPath,""))
-  pluginName = pluginName.substring(0,pluginName.indexOf('/'))
+  var pluginName = scriptPath.replace(pluginsPath,"");
+  pluginName = pluginName.substring(0,pluginName.indexOf('/'));
   var imagesPath = pluginsPath + pluginName + "/photos" + scriptName + "/";
   var fileManager = NSFileManager.defaultManager();
   var extensions = [NSArray arrayWithObjects:@"png", @"PNG", @"jpg", @"JPG", @"jpeg", @"JPEG", @"gif", @"GIF", nil];
@@ -52,4 +55,4 @@ function addImages(scriptPath){
       firstFill.setPatternImage(image);
     }
   }
-}
+})();

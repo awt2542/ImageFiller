@@ -9,7 +9,6 @@ var pluginPath = pluginsPath + pluginName;
 
 function getImages(imagesPath){
   new AppSandbox().authorize(imagesPath, function(){
-    log("trying to fetch images from: "+imagesPath)
 
     if (selection.count() == 0){
       [doc showMessage:"Oh! You need to select a few layers before running the plugin."]; return false;

@@ -21,7 +21,7 @@ This plugin makes it easy to automatically fill layers in Sketch with your own i
 ##How to add your own image catalogue
 1. Duplicate one of the existing .sketchplugin files and change the image path to a folder on your computer (or add a new folder inside /Photos if you prefer to keep things in one place)
 1. Open Sketch, select a few layers and run the plugin from the Plugins menu
-2
+
 ##How to remove the example images
 1. Delete the .sketchplugin file
 1. Delete the corresponding folder under /Photos.

@@ -1,6 +1,6 @@
 #ImageFiller for Sketch
 
-This plugin makes it easy to automatically fill layers in Sketch with your own images. On each run, it will randomly fetch images from a folder you've populated and apply them to the layers in current your selection.
+This plugin makes it easy to automatically fill layers in Sketch with your own images. On each run, it will randomly fetch images from a folder you've populated and apply them to the layers in your current selection.
 
 ![example](http://cl.ly/image/0q200I0y081y/example.png)
 

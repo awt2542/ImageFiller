@@ -14,13 +14,22 @@ function getImages(imagesPath){
       [doc showMessage:"Oh! You need to select a few layers before running the plugin."]; return false;
     }
 
+    // Get all images from this folder and its subdirectories
+
     var fileManager = NSFileManager.defaultManager();
-    var extensions = [NSArray arrayWithObjects:@"png", @"PNG", @"jpg", @"JPG", @"jpeg", @"JPEG", @"gif", @"GIF", nil];
-    if (!fileManager.fileExistsAtPath(imagesPath)){
-      [doc showMessage:"Oops! Missing folder "+imagesPath+". Create it and add some photos before running the plugin."]; return false;
+    [fileManager changeCurrentDirectoryPath:imagesPath];
+    var enumerator = [fileManager enumeratorAtPath:imagesPath];
+    var entry = [enumerator nextObject];
+    var stuff = [[NSMutableArray alloc] init];
+
+    while ((entry = [enumerator nextObject]) != null){
+       if ([fileManager fileExistsAtPath:entry]) {
+         [stuff addObject:entry];
+       }
     }
-    var dirContents = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:imagesPath error:nil];
-    var imagesFileNames = [dirContents filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"pathExtension IN %@", extensions]];
+    var extensions = [NSArray arrayWithObjects:@"png", @"PNG", @"jpg", @"JPG", @"jpeg", @"JPEG", @"gif", @"GIF", nil];
+    var imagesFileNames = [stuff filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"pathExtension IN %@", extensions]];
+    
     var imgLen = imagesFileNames.count();
     if (imgLen == 0) { 
       [doc showMessage:"Hm. Couldn't find any images inside "+imagesPath+". You should add a few."]; return false;

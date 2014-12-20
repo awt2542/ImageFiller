@@ -20,16 +20,15 @@ function getImages(imagesPath){
     [fileManager changeCurrentDirectoryPath:imagesPath];
     var enumerator = [fileManager enumeratorAtPath:imagesPath];
     var entry = [enumerator nextObject];
-    var stuff = [[NSMutableArray alloc] init];
+    var dirsNFiles = [[NSMutableArray alloc] init];
 
     while ((entry = [enumerator nextObject]) != null){
        if ([fileManager fileExistsAtPath:entry]) {
-         [stuff addObject:entry];
+         [dirsNFiles addObject:entry];
        }
     }
     var extensions = [NSArray arrayWithObjects:@"png", @"PNG", @"jpg", @"JPG", @"jpeg", @"JPEG", @"gif", @"GIF", nil];
-    var imagesFileNames = [stuff filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"pathExtension IN %@", extensions]];
-    
+    var imagesFileNames = [dirsNFiles filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"pathExtension IN %@", extensions]];
     var imgLen = imagesFileNames.count();
     if (imgLen == 0) { 
       [doc showMessage:"Hm. Couldn't find any images inside "+imagesPath+". You should add a few."]; return false;
@@ -41,6 +40,9 @@ function getImages(imagesPath){
           usedImages = []; // if all images has been used, reset the counter
       }
       var r = Math.floor(Math.random() * imgLen);
+      if(imagesPath.slice(-1) != "/"){
+        imagesPath = imagesPath+"/"; // ugly fix. path must end with a slash so we can concatenate properly
+      }
       var fileName = imagesPath+imagesFileNames[r];
       // if the image hasn't been used already
       if (usedImages.indexOf(fileName) == -1 ){

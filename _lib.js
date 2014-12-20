@@ -7,7 +7,7 @@ var pluginName = scriptPath.replace(pluginsPath,"");
 pluginName = pluginName.substring(0,pluginName.indexOf('/'));
 var pluginPath = pluginsPath + pluginName;
 
-function getImages(imagesPath){
+function getImagesFromPath(imagesPath){
   new AppSandbox().authorize(imagesPath, function(){
 
     if (selection.count() == 0){

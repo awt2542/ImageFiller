@@ -1,3 +1,0 @@
-#import '_lib.js'
-imagesPath = pluginPath+"/Photos/Nature/Animals/"
-getImages(imagesPath);

@@ -1,0 +1,3 @@
+#import '_lib.js'
+imagesPath = pluginPath+"/Photos/Landscapes/"
+getImages(imagesPath);

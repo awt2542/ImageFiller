@@ -1,11 +1,6 @@
 #import '_sandbox.js'
-// Set up some global path variables
-var scriptPath = sketch.scriptPath;
-var scriptName = scriptPath.substring(scriptPath.lastIndexOf('/'),scriptPath.lastIndexOf('.sketchplugin'))
-var pluginsPath = scriptPath.substring(0, scriptPath.indexOf('Plugins'))+"Plugins/";
-var pluginName = scriptPath.replace(pluginsPath,"");
-pluginName = pluginName.substring(0,pluginName.indexOf('/'));
-var pluginPath = pluginsPath + pluginName;
+// regex: anything().then("/Plugins/").anythingBut("/").then("/") 
+var pluginPath = sketch.scriptPath.match( /(?:.*)(?:\/Plugins\/)(?:[^\/]*)(?:\/)/gm );
 
 function getImagesFromPath(imagesPath){
   new AppSandbox().authorize(imagesPath, function(){

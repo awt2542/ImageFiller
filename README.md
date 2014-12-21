@@ -4,7 +4,9 @@ This plugin makes it easy to automatically fill layers in Sketch with your own i
 
 ![example](http://cl.ly/image/0q200I0y081y/example.png)
 
-**Features:**
+*Don't want to use custom images? Try the pre-filled [Content Generator](https://github.com/timuric/Content-generator-sketch-plugin), instead. It comes with dummy data for avatars, names, places and more.*
+
+##ImageFiller's features
 
 * Apply images to hundreds of layers in a single click
 * Designed to be modified! Use your own images from anywhere on your computer (eg. shared dropbox folder)
@@ -27,5 +29,5 @@ This plugin makes it easy to automatically fill layers in Sketch with your own i
 1. Delete the .sketchplugin file
 1. Delete the corresponding folder under /Photos.
 
-##Improve the code!
-Feel free to post issues and send pull requests!
+##Contact
+Twitter: [@andreaswah](http://twitter.com/andreaswah)

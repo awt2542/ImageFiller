@@ -12,8 +12,7 @@ function getImagesFromPath(imagesPath){
   new AppSandbox().authorize(imagesPath, run);
   
   function run(){
-    var methodStart = [NSDate date];
-
+    
     var usedImages = [];
     var selections = selection.count();
     if (selections == 0) showError("Oh! You need to select a few layers before running the plugin.");
@@ -53,8 +52,5 @@ function getImagesFromPath(imagesPath){
       }
       theimages.removeObjectAtIndex(r)
     }
-   
-    methodFinish = [NSDate date];
-    log([methodFinish timeIntervalSinceDate:methodStart]); 
   }
 }

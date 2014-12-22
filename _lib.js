@@ -1,71 +1,60 @@
 #import '_sandbox.js'
-// Set up some global path variables
-var scriptPath = sketch.scriptPath;
-var scriptName = scriptPath.substring(scriptPath.lastIndexOf('/'),scriptPath.lastIndexOf('.sketchplugin'))
-var pluginsPath = scriptPath.substring(0, scriptPath.indexOf('Plugins'))+"Plugins/";
-var pluginName = scriptPath.replace(pluginsPath,"");
-pluginName = pluginName.substring(0,pluginName.indexOf('/'));
-var pluginPath = pluginsPath + pluginName;
+var pluginPath = sketch.scriptPath.match( /(?:.*)(?:\/Plugins\/)(?:[^\/]*)(?:)/gm ); // ImageFiller's folder
 
-function getImages(imagesPath){
-  new AppSandbox().authorize(imagesPath, function(){
+function showError(msg){
+  doc.showMessage(msg);
+  return false;
+}
 
-    if (selection.count() == 0){
-      [doc showMessage:"Oh! You need to select a few layers before running the plugin."]; return false;
-    }
+function getImagesFromPath(imagesPath){
 
-    // Get all images from this folder and its subdirectories
+  if (imagesPath.slice(-1) != "/") imagesPath = imagesPath+"/"; // ugly fix for path concatenations
+  new AppSandbox().authorize(imagesPath, run);
+  
+  function run(){
+    var methodStart = [NSDate date];
 
+    var usedImages = [];
+    var selections = selection.count();
+    if (selections == 0) showError("Oh! You need to select a few layers before running the plugin.");
+    
+    // Get all images from the folder and its subdirectories
     var fileManager = NSFileManager.defaultManager();
-    [fileManager changeCurrentDirectoryPath:imagesPath];
-    var enumerator = [fileManager enumeratorAtPath:imagesPath];
-    var entry = [enumerator nextObject];
-    var stuff = [[NSMutableArray alloc] init];
-
+    fileManager.changeCurrentDirectoryPath(imagesPath);
+    var enumerator = fileManager.enumeratorAtPath(imagesPath);
+    var dirsNFiles = [[NSMutableArray alloc] init];
     while ((entry = [enumerator nextObject]) != null){
-       if ([fileManager fileExistsAtPath:entry]) {
-         [stuff addObject:entry];
+       if (fileManager.fileExistsAtPath(entry)) {
+         dirsNFiles.addObject(entry);
        }
     }
     var extensions = [NSArray arrayWithObjects:@"png", @"PNG", @"jpg", @"JPG", @"jpeg", @"JPEG", @"gif", @"GIF", nil];
-    var imagesFileNames = [stuff filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"pathExtension IN %@", extensions]];
-    
+    var imagesFileNames = [dirsNFiles filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"pathExtension IN %@", extensions]];
     var imgLen = imagesFileNames.count();
-    if (imgLen == 0) { 
-      [doc showMessage:"Hm. Couldn't find any images inside "+imagesPath+". You should add a few."]; return false;
-    }
-    var usedImages = [];
+    if (imgLen == 0) showError("Hm. Couldn't find any images inside "+imagesPath+". You should add a few.");
+    
+    // apply images to selection
+    var theimages = [[NSMutableArray alloc] init];
+    theimages.addObjectsFromArray(imagesFileNames);
 
-    function randomImage(){
-      if (usedImages.length == imgLen){ 
-          usedImages = []; // if all images has been used, reset the counter
-      }
-      var r = Math.floor(Math.random() * imgLen);
-      var fileName = imagesPath+imagesFileNames[r];
-      // if the image hasn't been used already
-      if (usedImages.indexOf(fileName) == -1 ){
-        usedImages.push(fileName);
-        return fileName;
-      } else {
-        return randomImage()
-      }
-    }
-
-    for (var i=0; i < selection.count(); i++){
-      // change the layer's fill properties to accept image fills
+    for (var i=0; i < selections; i++){
+      if (theimages.count() == 0) theimages.addObjectsFromArray(imagesFileNames);
       var layer = selection[i]
-      if (layer.style().fills().count() == 0) {
-        layer.style().fills().addNewStylePart();
-      }
-      var firstFill = layer.style().fills().lastObject();
-      firstFill.setFillType(4); // set fill to "pattern" instead of eg. "color"
-      firstFill.setPatternFillType(1); // set pattern type to "fill" instead of "tile"
-      // find a random photo and fill the layer
-      fileName = randomImage();
+      var fills = layer.style().fills()
+      var firstFill = fills.lastObject();
+      if (fills.count() == 0) fills.addNewStylePart();
+      firstFill.setFillType(4); 
+      firstFill.setPatternFillType(1);
+      var r = Math.floor(Math.random() * theimages.count());
+      var fileName = imagesPath+theimages[r];
       if (fileManager.fileExistsAtPath(fileName)) {
         image = [[NSImage alloc] initWithContentsOfFile:fileName];
         firstFill.setPatternImage(image);
       }
+      theimages.removeObjectAtIndex(r)
     }
-  })
+   
+    methodFinish = [NSDate date];
+    log([methodFinish timeIntervalSinceDate:methodStart]); 
+  }
 }

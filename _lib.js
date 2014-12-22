@@ -40,8 +40,8 @@ function getImagesFromPath(imagesPath){
       if (theimages.count() == 0) theimages.addObjectsFromArray(imagesFileNames);
       var layer = selection[i]
       var fills = layer.style().fills()
-      var firstFill = fills.lastObject();
       if (fills.count() == 0) fills.addNewStylePart();
+      var firstFill = fills.lastObject();
       firstFill.setFillType(4); 
       firstFill.setPatternFillType(1);
       var r = Math.floor(Math.random() * theimages.count());

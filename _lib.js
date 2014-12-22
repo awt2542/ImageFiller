@@ -12,7 +12,6 @@ function getImagesFromPath(imagesPath){
   new AppSandbox().authorize(imagesPath, run);
   
   function run(){
-    var methodStart = [NSDate date];
 
     var usedImages = [];
     var selections = selection.count();
@@ -53,8 +52,5 @@ function getImagesFromPath(imagesPath){
       }
       theimages.removeObjectAtIndex(r)
     }
-   
-    methodFinish = [NSDate date];
-    log([methodFinish timeIntervalSinceDate:methodStart]); 
   }
 }

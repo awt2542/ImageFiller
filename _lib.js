@@ -7,10 +7,13 @@ function showError(msg){
 }
 
 function getImagesFromPath(imagesPath){
+
   if (imagesPath.slice(-1) != "/") imagesPath = imagesPath+"/"; // ugly fix for path concatenations
   new AppSandbox().authorize(imagesPath, run);
   
   function run(){
+    var methodStart = [NSDate date];
+
     var usedImages = [];
     var selections = selection.count();
     if (selections == 0) showError("Oh! You need to select a few layers before running the plugin.");
@@ -31,30 +34,27 @@ function getImagesFromPath(imagesPath){
     if (imgLen == 0) showError("Hm. Couldn't find any images inside "+imagesPath+". You should add a few.");
    
     // apply images to selection
+    var theimages = [[NSMutableArray alloc] init];
+    theimages.addObjectsFromArray(imagesFileNames);
+
     for (var i=0; i < selections; i++){
+      if (theimages.count() == 0) theimages.addObjectsFromArray(imagesFileNames);
       var layer = selection[i]
       var fills = layer.style().fills()
       var firstFill = fills.lastObject();
       if (fills.count() == 0) fills.addNewStylePart();
       firstFill.setFillType(4); 
       firstFill.setPatternFillType(1);
-      var fileName = randomImage();
+      var r = Math.floor(Math.random() * theimages.count());
+      var fileName = imagesPath+theimages[r];
       if (fileManager.fileExistsAtPath(fileName)) {
         image = [[NSImage alloc] initWithContentsOfFile:fileName];
         firstFill.setPatternImage(image);
       }
+      theimages.removeObjectAtIndex(r)
     }
-
-    function randomImage(){
-      if (usedImages.length == imgLen) usedImages = []; // reset if all are used
-      var r = Math.floor(Math.random() * imgLen);
-      var fileName = imagesPath+imagesFileNames[r];
-      if (usedImages.indexOf(fileName) == -1 ){ // if the image hasn't been used already
-        usedImages.push(fileName);
-        return fileName;
-      } else { // find another one
-        return randomImage()
-      }
-    }
+   
+    methodFinish = [NSDate date];
+    log([methodFinish timeIntervalSinceDate:methodStart]); 
   }
 }
